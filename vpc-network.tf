@@ -1,6 +1,6 @@
 module "gcp-network" {
-  source       = "terraform-google-modules/network/google"
-#  version      = "6.0.0"
+  source = "terraform-google-modules/network/google"
+  #  version      = "6.0.0"
   project_id   = var.project_id
   network_name = "${var.network}-${var.env_name}"
 

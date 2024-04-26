@@ -24,8 +24,8 @@ module "gke" {
   filestore_csi_driver       = true
   create_service_account     = true
   deletion_protection        = false
-#  datapath_provider          = "ADVANCED_DATAPATH"
-  logging_service            = "logging.googleapis.com/kubernetes"
+  #  datapath_provider          = "ADVANCED_DATAPATH"
+  logging_service = "logging.googleapis.com/kubernetes"
 
   node_pools = [
     {
@@ -90,6 +90,6 @@ module "gke" {
     ]
   }
   depends_on = [
-        module.gcp-network
-        ]
+    module.gcp-network
+  ]
 }
