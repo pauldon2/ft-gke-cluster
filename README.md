@@ -1,1 +1,1 @@
-This is my verion GKE k8s cluster
+This is my version GKE k8s cluster
