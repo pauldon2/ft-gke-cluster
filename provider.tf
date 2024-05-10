@@ -28,7 +28,7 @@ provider "google" {
 terraform {
   backend "gcs" {
     bucket = "plab-state"
-    prefix = "terraform/gke-4prom.tfstate"
+    prefix = "terraform/prom-4monitor-dev.tfstate"
   }
 }
 

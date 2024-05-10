@@ -27,4 +27,6 @@ override.tf.json
 terraform.rc
 *.out
 *.json
+*.yaml
+*.no
 .terraform.lock.hcl

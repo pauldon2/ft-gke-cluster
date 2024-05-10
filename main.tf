@@ -31,7 +31,6 @@ module "gke" {
     {
       name            = "node-pool"
       machine_type    = "e2-small"
-      node_locations  = "europe-north1-a,europe-north1-b,europe-north1-c"
       min_count       = 1
       max_count       = 1
       disk_size_gb    = 30

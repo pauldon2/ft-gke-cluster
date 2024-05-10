@@ -32,27 +32,27 @@ variable "cluster_name" {
 variable "network" {
   type        = string
   description = "The VPC network created to host the cluster in"
-  default     = "gke-network-dev"
+  default     = "gke-network"
 }
 variable "subnetwork" {
   type        = string
   description = "The subnetwork created to host the cluster in"
-  default     = "gke-subnet-dev"
+  default     = "gke-subnet"
 }
 variable "ip_range_pods_name" {
   type        = string
   description = "The secondary ip range to use for pods"
-  default     = "ip-range-pods-dev"
+  default     = "ip-range-pods"
 }
 variable "ip_range_services_name" {
   type        = string
   description = "The secondary ip range to use for services"
-  default     = "ip-range-services-dev"
+  default     = "ip-range-services"
 }
 variable "zones" {
   type        = list(string)
   description = "The project ID to host the cluster in"
-  default     = ["europe-north1-a", "europe-north1-b", "europe-north1-c"]
+  default     = [""]
 }
 
 variable "service_account" {
