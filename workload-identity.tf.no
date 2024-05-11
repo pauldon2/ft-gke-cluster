@@ -1,0 +1,12 @@
+module "gke-workload-identity" {
+  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  use_existing_k8s_sa = true
+  name                = "kustomize-controller"
+  namespace           = "flux-system"
+  project_id          = var.project_id
+#  cluster_name        = "${var.cluster_name}-${var.env_name}"
+  cluster_name	      = "gke-4prom-dev"
+  location            = var.region
+  annotate_k8s_sa     = true
+  roles               = ["roles/cloudkms.cryptoKeyEncrypterDecrypter"]
+}
