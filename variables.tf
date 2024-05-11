@@ -55,6 +55,12 @@ variable "zones" {
   default     = [""]
 }
 
+variable "machine_type" {
+  type        = string
+  description = "Size of instances"
+  default     = ""
+}
+
 variable "service_account" {
   type        = string
   description = "The service account to run nodes as if not overridden in `node_pools`. The create_service_account variable default value (true) will cause a cluster-specific service account to be created."

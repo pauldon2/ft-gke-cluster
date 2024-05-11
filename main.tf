@@ -24,16 +24,15 @@ module "gke" {
   filestore_csi_driver       = true
   create_service_account     = true
   deletion_protection        = false
-  #  datapath_provider          = "ADVANCED_DATAPATH"
-  logging_service = "logging.googleapis.com/kubernetes"
+  logging_service            = "logging.googleapis.com/kubernetes"
 
   node_pools = [
     {
       name            = "node-pool"
-      machine_type    = "e2-small"
+      machine_type    = var.machine_type
       min_count       = 1
       max_count       = 1
-      disk_size_gb    = 30
+      disk_size_gb    = 40
       spot            = false
       auto_upgrade    = true
       auto_repair     = true
