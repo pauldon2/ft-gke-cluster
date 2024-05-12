@@ -28,10 +28,10 @@ module "gke" {
 
   node_pools = [
     {
-      name            = "node-pool"
+      name            = var.node_pool_name
       machine_type    = var.machine_type
       min_count       = 1
-      max_count       = 1
+      max_count       = 5
       disk_size_gb    = 40
       spot            = false
       auto_upgrade    = true
@@ -65,7 +65,7 @@ module "gke" {
     all = {}
     node-pool = {
       shutdown-script                 = "kubectl --kubeconfig=/var/lib/kubelet/kubeconfig drain --force=true --ignore-daemonsets=true --delete-local-data \"$HOSTNAME\""
-      node-pool-metadata-custom-value = "node-pool"
+      node-pool-metadata-custom-value = var.node_pool_name
     }
   }
 
@@ -74,7 +74,7 @@ module "gke" {
 
     node-pool = [
       {
-        key    = "node-pool"
+        key    = var.node_pool_name
         value  = true
         effect = "PREFER_NO_SCHEDULE"
       },
@@ -84,7 +84,7 @@ module "gke" {
   node_pools_tags = {
     all = []
     node-pool = [
-      "node-pool",
+      var.node_pool_name,
     ]
   }
   depends_on = [
