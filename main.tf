@@ -9,6 +9,7 @@ provider "kubernetes" {
 
 module "gke" {
   source                     = "terraform-google-modules/kubernetes-engine/google"
+  version                    = "~> 30.0"
   project_id                 = var.project_id
   name                       = "${var.cluster_name}-${var.env_name}"
   regional                   = true
@@ -24,11 +25,12 @@ module "gke" {
   filestore_csi_driver       = true
   create_service_account     = true
   deletion_protection        = false
+  remove_default_node_pool   = true
   logging_service            = "logging.googleapis.com/kubernetes"
 
   node_pools = [
     {
-      name            = var.node_pool_name
+      name            = "workers"
       machine_type    = var.machine_type
       min_count       = 1
       max_count       = 5
@@ -37,6 +39,19 @@ module "gke" {
       auto_upgrade    = true
       auto_repair     = true
       autoscaling     = true
+      service_account = var.service_account
+    },
+
+    {
+      name            = "monitoring"
+      machine_type    = var.machine_type
+      min_count       = 1
+      max_count       = 1
+      disk_size_gb    = 60
+      spot            = false
+      auto_upgrade    = true
+      auto_repair     = true
+      autoscaling     = false
       service_account = var.service_account
     },
   ]
@@ -54,39 +69,33 @@ module "gke" {
   }
 
   node_pools_labels = {
-    all = {}
+    workers = {
+      workers = true
+    }
 
-    default-node-pool = {
-      default-node-pool = true
+    monitoring = {
+      monitoring = true
     }
   }
 
   node_pools_metadata = {
-    all = {}
-    node-pool = {
-      shutdown-script                 = "kubectl --kubeconfig=/var/lib/kubelet/kubeconfig drain --force=true --ignore-daemonsets=true --delete-local-data \"$HOSTNAME\""
-      node-pool-metadata-custom-value = var.node_pool_name
+    all = {
+      shutdown-script = "kubectl --kubeconfig=/var/lib/kubelet/kubeconfig drain --force=true --ignore-daemonsets=true --delete-local-data \"$HOSTNAME\""
     }
   }
 
-  node_pools_taints = {
-    all = []
-
-    node-pool = [
-      {
-        key    = var.node_pool_name
-        value  = true
-        effect = "PREFER_NO_SCHEDULE"
-      },
-    ]
-  }
 
   node_pools_tags = {
-    all = []
-    node-pool = [
-      var.node_pool_name,
+    workers = [
+      "workers",
     ]
+
+    monitoring = [
+      "monitoring",
+    ]
+
   }
+
   depends_on = [
     module.gcp-network
   ]
