@@ -96,6 +96,16 @@ module "gke" {
 
   }
 
+  node_pools_taints = {
+    monitoring = [
+      {
+        key    = "monitoring"
+        value  = true
+        effect = "NO_EXECUTE"
+      },
+    ]  
+  }
+
   depends_on = [
     module.gcp-network
   ]
